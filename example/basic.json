@@ -1,0 +1,11 @@
+{
+  "name": "my job",
+  "baseUrl": "http://node-echo.herokuapp.com",
+  "times": 10,
+  "maxSockets": 5,
+  "requests": [
+    [ "GET", "/" ],
+    [ "POST", "/login" ],
+    [ "GET", "/logout"]
+  ]
+}
