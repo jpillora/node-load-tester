@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/css/app.css">
+  </head>
+  <body>
+    <div class="input">
+      <textarea></textarea>
+    </div>
+    <div class="output">
+      <textarea readonly="true">Press 'run'</textarea>
+    </div>
+    <div class="controls">
+      <button>Run</button>
+    </div>
+    <script>
+      var INIT = "{\n  \"name\": \"my job\",\n  \"baseUrl\": \"http://node-echo.herokuapp.com\",\n  \"runs\": 3,\n  \"connections\": 5,\n  \"sequence\": [\n    [ \"GET\",  \"/\" ],\n    [ \"POST\", \"/login\", {\"foo\": 2, \"bar\": \"seven\"} ],\n    [ \"GET\",  \"/logout\"]\n  ]\n}"
+      
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+    <script src="/js/app.js"></script>
+  </body>
+</html>

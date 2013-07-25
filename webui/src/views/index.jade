@@ -1,0 +1,19 @@
+!!!5
+html
+  head
+    link(rel="stylesheet", href="/css/app.css")
+  body
+    .input
+      textarea
+    .output
+      textarea(readonly="true") Press 'run'
+
+    .controls
+      button Run
+
+    script.
+      var INIT = !{JSON.stringify(showFile('/../example/basic.json'))}
+
+    script(src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.js")
+    script(src="/js/app.js")
+
