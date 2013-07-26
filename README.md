@@ -108,7 +108,7 @@ Random form data
   "duration": 5000,
   "connections": 1,
   "sequence": [
-    { "method": "POST", "path": "/api/login",  "form":[
+    { "method": "POST", "path": "/api/login",  "forms":[
         {"username":"foo","password":"bar"},
         {"username":"ping","password":"pong"},
         {"username":"zap","password":"zoop"}
@@ -125,7 +125,7 @@ More response expectations
 ``` json
 {
   "baseUrl": "http://echo.jpillora.com",
-  "duration": 5000,
+  "runs": 3,
   "connections": 1,
   "sequence": [
     { "method": "GET", "path": "/api/code-test",  "expect": { "code": 408 } },

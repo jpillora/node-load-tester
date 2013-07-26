@@ -1,6 +1,6 @@
 {
   "baseUrl": "http://echo.jpillora.com",
-  "duration": 5000,
+  "runs": 3,
   "connections": 1,
   "sequence": [
     { "method": "GET", "path": "/api/code-test",  "expect": { "code": 408 } },
