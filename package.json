@@ -1,8 +1,11 @@
 {
-  "name": "load-test-server",
+  "name": "load-tester",
   "version": "0.1.0",
   "description": "A load testing server",
   "main": "server.js",
+  "bin": {
+    "load-tester": "./bin/load-tester"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

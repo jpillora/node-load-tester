@@ -1,11 +1,12 @@
 {
-  "name": "my job",
-  "baseUrl": "http://node-echo.herokuapp.com",
-  "runs": 3,
-  "connections": 5,
+  "baseUrl": "http://echo.jpillora.com",
+  "duration": 5000,
+  "connections": 1,
   "sequence": [
-    [ "GET",  "/" ],
-    [ "POST", "/login", {"foo": 2, "bar": "seven"} ],
-    [ "GET",  "/logout"]
+    { "method": "GET",  "path": "/" },
+    { "method": "POST", "path": "/api/login",  "form":{"username":"foo","password":"bar"} },
+    { "method": "GET",  "path": "/test/user" },
+    { "method": "GET",  "path": "/logout" },
+    { "method": "GET",  "path": "/test/user", "expect": { "code": 404 } }
   ]
 }

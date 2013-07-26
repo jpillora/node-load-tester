@@ -29,5 +29,5 @@ $ ->
       if status is 'success'
         output.val JSON.stringify result, null, 2
       else
-        output.val "Error: #{result}"
+        output.val "Error: " + JSON.stringify result, null, 2
     

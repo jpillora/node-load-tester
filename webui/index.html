@@ -14,10 +14,10 @@
       <button>Run</button>
     </div>
     <script>
-      var INIT = "{\n  \"name\": \"my job\",\n  \"baseUrl\": \"http://node-echo.herokuapp.com\",\n  \"runs\": 3,\n  \"connections\": 5,\n  \"sequence\": [\n    [ \"GET\",  \"/\" ],\n    [ \"POST\", \"/login\", {\"foo\": 2, \"bar\": \"seven\"} ],\n    [ \"GET\",  \"/logout\"]\n  ]\n}"
+      var INIT = "{\n  \"baseUrl\": \"http://echo.jpillora.com\",\n  \"duration\": 5000,\n  \"connections\": 1,\n  \"sequence\": [\n    { \"method\": \"GET\",  \"path\": \"/\" },\n    { \"method\": \"POST\", \"path\": \"/api/login\",  \"form\":{\"username\":\"foo\",\"password\":\"bar\"} },\n    { \"method\": \"GET\",  \"path\": \"/test/user\" },\n    { \"method\": \"GET\",  \"path\": \"/logout\" },\n    { \"method\": \"GET\",  \"path\": \"/test/user\", \"expect\": { \"code\": 404 } }\n  ]\n}"
       
     </script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script src="/js/app.js"></script>
   </body>
 </html>

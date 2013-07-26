@@ -28,7 +28,7 @@
         if (status === 'success') {
           return output.val(JSON.stringify(result, null, 2));
         } else {
-          return output.val("Error: " + result);
+          return output.val("Error: " + JSON.stringify(result, null, 2));
         }
       });
     });

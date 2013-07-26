@@ -1,4 +1,4 @@
-# <name>load-test-server</end>
+# node-<name>load-tester</end>
 
 ## Summary
 
@@ -8,7 +8,7 @@
 
 <codeBlock("npm install -g " + name)>
 ```
-npm install -g load-test-server
+npm install -g load-tester
 ```
 </end>
 
@@ -18,25 +18,68 @@ npm install -g load-test-server
 load-tester 3000
 ```
 
-Post JSON `http://localhost:3000`
+Visit `http://localhost:3000`
+
+## API
+
+`POST /run`
+
+JSON Body:
 <showFile("example/basic.json")>
-```
+``` json
 {
-  "name": "my job",
-  "host": "node-echo.heroku.com",
-  "requests": [
-    [ "GET", "/" ],
-    [ "POST", "/login" ]
+  "baseUrl": "http://echo.jpillora.com",
+  "duration": 5000,
+  "connections": 1,
+  "sequence": [
+    { "method": "GET",  "path": "/" },
+    { "method": "POST", "path": "/api/login",  "form":{"username":"foo","password":"bar"} },
+    { "method": "GET",  "path": "/test/user" },
+    { "method": "GET",  "path": "/logout" },
+    { "method": "GET",  "path": "/test/user", "expect": { "code": 404 } }
   ]
 }
 ```
 </end>
 
 
-Recieve results
-```
+Recieve:
+``` json
 {
-
+  "paths": {
+    "GET /": {
+      "pass": 2,
+      "fail": 0,
+      "total": 2,
+      "avgResponseTime": 877
+    },
+    "POST /api/login": {
+      "pass": 2,
+      "fail": 0,
+      "total": 2,
+      "avgResponseTime": 936
+    },
+    "GET /test/user": {
+      "pass": 2,
+      "fail": 2,
+      "total": 4,
+      "avgResponseTime": 692
+    },
+    "GET /logout": {
+      "pass": 2,
+      "fail": 0,
+      "total": 2,
+      "avgResponseTime": 660
+    }
+  },
+  "errors": {
+    "expected code: 404 got: 200 (for GET /test/user)": 2
+  },
+  "pass": 8,
+  "fail": 2,
+  "total": 10,
+  "totalTime": 7719,
+  "avgResponseTime": 791
 }
 ```
 

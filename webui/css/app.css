@@ -43,6 +43,7 @@ html {
 /* line 24 : /Users/jpillora/Code/Node/node-load-tester/webui/src/styles/app.styl */
 .controls {
   position: fixed;
-  bottom: 0;
-  left: 0;
+  top: 50%;
+  left: 10px;
+  margin-top: -10px;
 }
