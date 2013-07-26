@@ -1,0 +1,13 @@
+{
+  "baseUrl": "http://echo.jpillora.com",
+  "duration": 5000,
+  "connections": 1,
+  "sequence": [
+    { "method": "POST", "path": "/api/login",  "form":[
+        {"username":"foo","password":"bar"},
+        {"username":"ping","password":"pong"},
+        {"username":"zap","password":"zoop"}
+      ]
+    }
+  ]
+}

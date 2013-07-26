@@ -4,6 +4,20 @@
 
 <description>A load testing server</end>
 
+## Features
+
+* A new session (new set of cookies) is made per sequence
+* Control sequence concurrency with `connections`
+* Control test duration with `duration`
+* Control number of runs with `runs`
+* Create response expectations based on status code and body contents
+
+## Demo
+
+http://load-tester-1.herokuapp.com
+
+*Note: free heroku instances have bandwidth caps* 
+
 ## Download
 
 <codeBlock("npm install -g " + name)>
@@ -18,7 +32,7 @@ npm install -g load-tester
 load-tester 3000
 ```
 
-Visit `http://localhost:3000`
+Basic front-end at: `http://localhost:3000`
 
 ## API
 
@@ -82,6 +96,47 @@ Recieve:
   "avgResponseTime": 791
 }
 ```
+
+## More Examples
+
+Random form data
+
+<showFile("example/random-forms.json")>
+``` json
+{
+  "baseUrl": "http://echo.jpillora.com",
+  "duration": 5000,
+  "connections": 1,
+  "sequence": [
+    { "method": "POST", "path": "/api/login",  "form":[
+        {"username":"foo","password":"bar"},
+        {"username":"ping","password":"pong"},
+        {"username":"zap","password":"zoop"}
+      ]
+    }
+  ]
+}
+```
+</end>
+
+More response expectations
+
+<showFile("example/expectations.json")>
+``` json
+{
+  "baseUrl": "http://echo.jpillora.com",
+  "duration": 5000,
+  "connections": 1,
+  "sequence": [
+    { "method": "GET", "path": "/api/code-test",  "expect": { "code": 408 } },
+    { "method": "GET", "path": "/api/string-test",  "expect": { "contains": "abc" } },
+    { "method": "GET", "path": "/api/regex-test",  "expect": { "match": "^a[Bb]c$" } }
+  ]
+}
+```
+</end>
+
+*`runs` is how many times to run the sequence. Can be used with or instead of `duration`.*
 
 <license()>
 #### MIT License
