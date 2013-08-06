@@ -22,7 +22,7 @@ $ ->
 
     req = $.ajax
       type: 'POST'
-      url: '/run'
+      url: '/job'
       data: json
 
     req.always (result, status) -> 
