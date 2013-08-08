@@ -1,0 +1,15 @@
+{
+  "baseUrls": [
+    "http://74.125.237.114",
+    "http://74.125.237.115",
+    "http://74.125.237.116"
+  ],
+  "headers": {
+    "host": "www.google.com.au"
+  },
+  "duration": 5000,
+  "connections": 1,
+  "sequence": [
+    { "path": "/" }
+  ]
+}

@@ -2,7 +2,7 @@
 
 ## Summary
 
-<description>A load testing server</end>
+<description>A load testing server</end> - v<version>0.4.0</end>
 
 ## Features
 
@@ -10,6 +10,9 @@
 * Control sequence concurrency with `connections`
 * Control test duration with `duration`
 * Control number of runs with `runs`
+* Set custom `headers`
+* Create a set of `baseUrls`, randomly choosing a `baseUrl` to test against
+* Create a set of `forms`, randomly choosing a `form` to POST with
 * Create response expectations based on status code and body contents
 
 ## Demo
@@ -99,7 +102,7 @@ Recieve:
 
 ## More Examples
 
-Random form data
+#### Random form data
 
 <showFile("example/random-forms.json")>
 ``` json
@@ -119,7 +122,7 @@ Random form data
 ```
 </end>
 
-More response expectations
+#### More response expectations
 
 <showFile("example/expectations.json")>
 ``` json
@@ -137,6 +140,33 @@ More response expectations
 </end>
 
 *`runs` is how many times to run the sequence. Can be used with or instead of `duration`.*
+
+
+#### Simulate load balancer
+
+<showFile("example/load-balancer.json")>
+``` json
+{
+  "baseUrls": [
+    "http://74.125.237.114",
+    "http://74.125.237.115",
+    "http://74.125.237.116"
+  ],
+  "headers": {
+    "host": "www.google.com.au"
+  },
+  "duration": 5000,
+  "connections": 1,
+  "sequence": [
+    { "path": "/" }
+  ]
+}
+```
+</end>
+
+*Every request will randomly choose one of the `baseUrls`*
+
+*Requests may also specify a `header` object which will override the job's `header` object*
 
 <license()>
 #### MIT License
