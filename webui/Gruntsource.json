@@ -1,3 +1,4 @@
 {
-  "source":"~/.grunt-sources/ghpages"
+  "source":"~/.grunt-sources/web",
+  "repo": "https://github.com/jpillora/grunt-source-web.git"
 }

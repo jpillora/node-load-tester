@@ -1,9 +1,14 @@
 
+
+$.notify.defaults {position:'bottom left'}
+error = (str) ->
+  $.notify str
+
 $ ->
 
   input = $(".input textarea")
   output = $(".output textarea")
-  input.val INIT
+  input.val DEFAULT_INPUT
   req = null
 
   $("button").click ->
@@ -15,19 +20,22 @@ $ ->
     try
       JSON.parse json
     catch e
-      output.val "JSON Error: #{e}"
+      error "JSON Error: #{e}"
       return
 
-    output.val "loading..."
+    $("button").html("Loading...").attr("disabled","disabled")
 
     req = $.ajax
       type: 'POST'
       url: '/job'
+      timeout: 0
       data: json
 
-    req.always (result, status) -> 
+    req.always (result, status, err) ->
+      $("button").html("Run").removeAttr("disabled")
       if status is 'success'
         output.val JSON.stringify result, null, 2
       else
-        output.val "Error: " + JSON.stringify result, null, 2
+        console.log result.responseText
+        error "Error: #{result.responseText}"
     

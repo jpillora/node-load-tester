@@ -2,10 +2,11 @@
 
 ## Summary
 
-<description>A load testing server</end> - v<version>0.4.0</end>
+<description>A load testing server</end> - v<version>0.5.0</end>
 
 ## Features
 
+* Basic WebUI
 * A new session (new set of cookies) is made per sequence
 * Control sequence concurrency with `connections`
 * Control test duration with `duration`
@@ -17,7 +18,7 @@
 
 ## Demo
 
-http://load-tester-1.herokuapp.com
+http://node-load-tester.herokuapp.com
 
 *Note: free heroku instances have bandwidth caps* 
 
@@ -39,7 +40,39 @@ Basic front-end at: `http://localhost:3000`
 
 ## API
 
-`POST /run`
+`POST /job`
+
+Create a load test `Job`
+
+### `Job` Object Properties
+
+* `baseUrl` (String) - Target URL
+* `baseUrls` (Array[String]) - Target URLs
+* `runs` (Number) - Number of times to run through the `sequence`
+* `duration` (Number) - Keep running through the `sequence` for `duration`ms
+* `connections` (Number) - Number of HTTP clients (each will run through the `sequence`)
+* `sequence` (Array[Request]) - The sequence of `Request`s to execute (a new cookie jar is created per sequence)
+
+### `Request` Object Properties
+
+* `method` (String) - HTTP Method to use (default:`"GET"`)
+* `path` (String) - URL Path to be appended to `baseUrl`
+* `form` (Object) - Object to application/form encode
+* `forms` (Array[Object]) - Round-robin through objects to application/form encode
+
+* `expect` (Object) - Expectation definition object
+  * `code` (Number) - Expect a particular HTTP status code
+  * `contains` (String) - Expect the HTTP body to contain
+  * `match` (String) - Expect the HTTP body to match `new RegExp(match)`
+
+  Note: failed expections are accumulated in the results
+  ``` json
+  "errors": {
+    "expected code: 404 got: 200 (for GET /test/user)": 2
+  }
+  ```
+
+## Basic Example
 
 JSON Body:
 <showFile("example/basic.json")>
@@ -58,7 +91,6 @@ JSON Body:
 }
 ```
 </end>
-
 
 Recieve:
 ``` json
