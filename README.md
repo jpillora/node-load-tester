@@ -48,33 +48,42 @@ Create a load test `Job`
 
 * `baseUrl` (String) - Target URL
 * `baseUrls` (Array[String]) - Target URLs
+* `headers` (Object) - Header/Value pairs to apply to all `Request`s
 * `runs` (Number) - Number of times to run through the `sequence`
 * `duration` (Number) - Keep running through the `sequence` for `duration`ms
 * `connections` (Number) - Number of HTTP clients (each will run through the `sequence`)
-* `sequence` (Array[Request]) - The sequence of `Request`s to execute (a new cookie jar is created per sequence)
+* `sequence` (Array[`Request`]) - The sequence of `Request`s to execute (a new cookie jar is created per sequence)
 
 ### `Request` Object Properties
 
 * `method` (String) - HTTP Method to use (default:`"GET"`)
 * `path` (String) - URL Path to be appended to `baseUrl`
+* `headers` (Object) - Header/Value pairs to apply to this `Request` (overrides `Job` `headers`)
 * `form` (Object) - Object to application/form encode
 * `forms` (Array[Object]) - Round-robin through objects to application/form encode
-
 * `expect` (Object) - Expectation definition object
-  * `code` (Number) - Expect a particular HTTP status code
-  * `contains` (String) - Expect the HTTP body to contain
-  * `match` (String) - Expect the HTTP body to match `new RegExp(match)`
+    * `code` (Number) - Expect a particular HTTP status code **(default:200)**
+    * `contains` (String) - Expect the HTTP body to contain
+    * `match` (String) - Expect the HTTP body to match `new RegExp(match)`
+  
+**Note:** There must be **one** `expect`ation
 
-  Note: failed expections are accumulated in the results
-  ``` json
-  "errors": {
-    "expected code: 404 got: 200 (for GET /test/user)": 2
-  }
-  ```
+**Note:** Failed expections are accumulated in the results, e.g:
+``` json
+"errors": {
+  "expected code: 404 got: 200 (for GET /test/user)": 2
+}
+```
 
 ## Basic Example
 
-JSON Body:
+We'll target `http://echo.jpillora.com`, run the following sequence:
+ * GET `/` (home) and expect a `200`
+ * Then POST `/api/login` with creds and expect a `200`
+ * Then confirm that we just logged in (`/test/user` and check it's `200`)
+ * Then we'll logout
+ * Finally we'll confirm that we just logged out (`/test/user` and check it's **`404`**)
+
 <showFile("example/basic.json")>
 ``` json
 {
@@ -92,7 +101,9 @@ JSON Body:
 ```
 </end>
 
-Recieve:
+Since `http://echo.jpillora.com` is just an echo server, it didn't actually login,
+so the second `/test/user` still responded with 200, which is seen as a failure:
+
 ``` json
 {
   "paths": {
@@ -196,7 +207,7 @@ Recieve:
 ```
 </end>
 
-*Every request will randomly choose one of the `baseUrls`*
+*Every request will round-robin through the `baseUrls`*
 
 *Requests may also specify a `header` object which will override the job's `header` object*
 
