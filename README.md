@@ -23,64 +23,26 @@
 * Create a set of `forms`, randomly choosing a `form` to POST with
 * Create response expectations based on status code and body contents
 
+## Install
+```
+$ npm install -g load-tester
+```
+
+## Run
+```
+$ load-tester <port>
+Listening on <port>
+```
+
+Now, you'll find a basic webui at `http://localhost:<port>`
+
+or you can try the live demo:
+
 ## Demo
 
 http://node-load-tester.herokuapp.com
 
 *Note: free heroku instances have bandwidth caps* 
-
-## Download
-
-<codeBlock("npm install -g " + name)>
-```
-npm install -g load-tester
-```
-</end>
-
-## Usage
-
-```
-load-tester 3000
-```
-
-Basic front-end at: `http://localhost:3000`
-
-## API
-
-`POST /job`
-
-Create a load test `Job`
-
-### `Job` Object Properties
-
-* `baseUrl` (String) - Target URL
-* `baseUrls` (Array[String]) - Target URLs
-* `headers` (Object) - Header/Value pairs to apply to all `Request`s
-* `runs` (Number) - Number of times to run through the `sequence`
-* `duration` (Number) - Keep running through the `sequence` for `duration`ms
-* `connections` (Number) - Number of HTTP clients (each will run through the `sequence`)
-* `sequence` (Array[`Request`]) - The sequence of `Request`s to execute (a new cookie jar is created per sequence)
-
-### `Request` Object Properties
-
-* `method` (String) - HTTP Method to use (default:`"GET"`)
-* `path` (String) - URL Path to be appended to `baseUrl`
-* `headers` (Object) - Header/Value pairs to apply to this `Request` (overrides `Job` `headers`)
-* `form` (Object) - Object to application/form encode
-* `forms` (Array[Object]) - Round-robin through objects to application/form encode
-* `expect` (Object) - Expectation definition object
-    * `code` (Number) - Expect a particular HTTP status code **(default:200)**
-    * `contains` (String) - Expect the HTTP body to contain
-    * `match` (String) - Expect the HTTP body to match `new RegExp(match)`
-  
-**Note:** There must be **one** `expect`ation
-
-**Note:** Failed expections are accumulated in the results, e.g:
-``` json
-"errors": {
-  "expected code: 404 got: 200 (for GET /test/user)": 2
-}
-```
 
 ## Basic Example
 
@@ -150,6 +112,43 @@ so the second `/test/user` still responded with 200, which is seen as a failure:
 }
 ```
 
+## API
+
+`POST /job`
+
+Create a load test `Job`
+
+### `Job` Object Properties
+
+* `baseUrl` (String) - Target URL
+* `baseUrls` (Array[String]) - Target URLs
+* `headers` (Object) - Header/Value pairs to apply to all `Request`s
+* `runs` (Number) - Number of times to run through the `sequence`
+* `duration` (Number) - Keep running through the `sequence` for `duration`ms
+* `connections` (Number) - Number of HTTP clients (each will run through the `sequence`)
+* `sequence` (Array[`Request`]) - The sequence of `Request`s to execute (a new cookie jar is created per sequence)
+
+### `Request` Object Properties
+
+* `method` (String) - HTTP Method to use (default:`"GET"`)
+* `path` (String) - URL Path to be appended to `baseUrl`
+* `headers` (Object) - Header/Value pairs to apply to this `Request` (overrides `Job` `headers`)
+* `form` (Object) - Object to application/form encode
+* `forms` (Array[Object]) - Round-robin through objects to application/form encode
+* `expect` (Object) - Expectation definition object
+    * `code` (Number) - Expect a particular HTTP status code **(default:200)**
+    * `contains` (String) - Expect the HTTP body to contain
+    * `match` (String) - Expect the HTTP body to match `new RegExp(match)`
+  
+**Note:** There must be **one** `expect`ation
+
+**Note:** Failed expections are accumulated in the results, e.g:
+``` json
+"errors": {
+  "expected code: 404 got: 200 (for GET /test/user)": 2
+}
+```
+
 ## More Examples
 
 #### Random form data
@@ -194,6 +193,10 @@ so the second `/test/user` still responded with 200, which is seen as a failure:
 
 #### Simulate load balancer
 
+*Every request will round-robin through the `baseUrls`*
+
+*Requests may also specify a `header` object which will override the job's `header` object*
+
 <showFile("example/load-balancer.json")>
 ``` json
 {
@@ -213,10 +216,6 @@ so the second `/test/user` still responded with 200, which is seen as a failure:
 }
 ```
 </end>
-
-*Every request will round-robin through the `baseUrls`*
-
-*Requests may also specify a `header` object which will override the job's `header` object*
 
 <license()>
 #### MIT License
