@@ -23,6 +23,14 @@
 * Create a set of `forms`, randomly choosing a `form` to POST with
 * Create response expectations based on status code and body contents
 
+## Future
+
+* Nice WebUI **(Pull Request Anyone?)**
+  * Dynamic Angular Form to construct a `Job` object
+  * Nice display of results object
+* Cancel jobs
+* Modify result object to mirror the `Request` object 
+
 ## Install
 ```
 $ npm install -g load-tester
