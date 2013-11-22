@@ -1,24 +1,91 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.9.3/css/semantic.min.css">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto+Condensed">
     <link rel="stylesheet" href="/css/app.css">
   </head>
-  <body><a href="https://github.com/jpillora/node-load-tester"><img style="position: absolute; z-index: 2; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
-    <div class="input">
-      <textarea>
-      </textarea>
+  <body ng-app="load-tester"><a href="https://github.com/jpillora/node-load-tester"><img style="position: absolute; z-index: 2; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+    <div class="ui vertical segment">
+      <div class="ui huge header">node-load-tester</div>
     </div>
-    <div class="output">
-      <textarea readonly="true">Press 'run'</textarea>
+    <div class="ui form green segment">
+      <div class="ui ribbon label">Job</div>
+      <div class="field">
+        <label>Origin (Protocol and Domain)</label>
+        <div class="ui small left labeled action icon input">
+          <input type="text" placeholder="http://example.com">
+          <div class="ui small button">Add another</div><i class="url icon"></i>
+        </div>
+      </div>
+      <div class="ui three fields">
+        <div class="field">
+          <div class="ui small input">
+            <label>Duration</label>
+            <input type="text" placeholder="5000">
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui small input">
+            <label>Runs</label>
+            <input type="text" placeholder="5">
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui small input">
+            <label>Connections</label>
+            <input type="text" placeholder="1">
+          </div>
+        </div>
+      </div>
+      <div class="ui green label">Sequence</div>
+      <div class="ui raised green segment">
+        <div class="ui middle aligned three column grid">
+          <div class="row">
+            <div class="column">
+              <div class="ui small input">
+                <label>Method</label>
+                <input type="text" placeholder="GET">
+              </div>
+            </div>
+            <div class="column">
+              <div class="ui small input">
+                <label>Path</label>
+                <input type="text" placeholder="/">
+              </div>
+            </div>
+            <div class="column">
+              <div class="ui center aligned two column grid">
+                <div class="row">
+                  <div class="column">
+                    <div class="ui small button">Add Header</div>
+                  </div>
+                  <div class="column">
+                    <div class="ui small button">Add Form</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui blue submit button">Start</div>
     </div>
-    <div class="controls">
-      <button>Run</button>
+    <div class="ui form red segment">
+      <div class="ui ribbon label">Results</div>
+      <div class="field">
+        <label>Origin (Protocol and Domain)</label>
+        <div class="ui small left labeled icon input">
+          <input type="text" placeholder="http://example.com"><i class="url icon"></i>
+        </div>
+      </div>
     </div>
     <script>
       var DEFAULT_INPUT = "{\n  \"baseUrl\": \"http://echo.jpillora.com\",\n  \"duration\": 5000,\n  \"connections\": 1,\n  \"sequence\": [\n    { \"method\": \"GET\",  \"path\": \"/\" },\n    { \"method\": \"POST\", \"path\": \"/api/login\",  \"form\":{\"username\":\"foo\",\"password\":\"bar\"} },\n    { \"method\": \"GET\",  \"path\": \"/test/user\" },\n    { \"method\": \"GET\",  \"path\": \"/logout\" },\n    { \"method\": \"GET\",  \"path\": \"/test/user\", \"expect\": { \"code\": 404 } }\n  ]\n}"
       
     </script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.js"></script>
     <script src="/js/app.js"></script>
   </body>
 </html>

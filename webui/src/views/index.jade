@@ -1,26 +1,82 @@
 !!!5
 html
   head
+    link(rel="stylesheet", href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.9.3/css/semantic.min.css")
+    link(rel="stylesheet", href="//fonts.googleapis.com/css?family=Roboto+Condensed")
     link(rel="stylesheet", href="/css/app.css")
-  body
+
+  body(ng-app="load-tester")
 
     a(href="https://github.com/jpillora/node-load-tester")
       img(style="position: absolute; z-index: 2; top: 0; right: 0; border: 0;",src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png",alt="Fork me on GitHub")
 
-    .input
-      textarea
-        //- gets populated with 'basic.json'
 
-    .output
-      textarea(readonly="true") Press 'run'
 
-    .controls
-      button Run
+
+    .ui.vertical.segment
+      .ui.huge.header node-load-tester
+
+    .ui.form.green.segment
+      .ui.ribbon.label Job
+
+      .field
+        label Origin (Protocol and Domain)
+        .ui.small.left.labeled.action.icon.input
+          input(type='text', placeholder='http://example.com')
+          .ui.small.button Add another
+          i.url.icon
+
+      .ui.three.fields
+        .field: .ui.small.input
+          label Duration
+          input(type='text', placeholder='5000')
+        .field: .ui.small.input
+          label Runs
+          input(type='text', placeholder='5')
+        .field: .ui.small.input
+          label Connections
+          input(type='text', placeholder='1')
+
+      .ui.green.label Sequence
+
+      .ui.raised.green.segment
+        .ui.middle.aligned.three.column.grid
+          .row
+            .column
+              .ui.small.input
+                label Method
+                input(type='text', placeholder='GET')
+            .column
+              .ui.small.input
+                label Path
+                input(type='text', placeholder='/')
+            .column
+              .ui.center.aligned.two.column.grid
+                .row
+                  .column
+                    .ui.small.button Add Header
+                  .column
+                    .ui.small.button Add Form
+
+      .ui.blue.submit.button Start
+
+    .ui.form.red.segment
+      .ui.ribbon.label Results
+
+      .field
+        label Origin (Protocol and Domain)
+        .ui.small.left.labeled.icon.input
+          input(type='text', placeholder='http://example.com')
+          i.url.icon
+
+
+
 
     script.
       var DEFAULT_INPUT = !{JSON.stringify(showFile('../example/basic.json'))}
 
-    script(src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js")
+    script(src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery#{min}.js")
+    script(src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular#{min}.js")
     //- script(src="//cdn.sockjs.org/sockjs-0.3.min.js")
     script(src="/js/app.js")
 

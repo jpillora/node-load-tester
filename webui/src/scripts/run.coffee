@@ -1,41 +1,30 @@
 
 
-$.notify.defaults {position:'bottom left'}
-error = (str) ->
-  $.notify str
 
-$ ->
 
-  input = $(".input textarea")
-  output = $(".output textarea")
-  input.val DEFAULT_INPUT
-  req = null
+# $ ->
 
-  $("button").click ->
+#   input = $(".input textarea")
+#   output = $(".output textarea")
+#   input.val DEFAULT_INPUT
+#   req = null
 
-    req.abort() if req
+#   $("button").click ->
 
-    json = input.val()
+#     req.abort() if req
 
-    try
-      JSON.parse json
-    catch e
-      error "JSON Error: #{e}"
-      return
+#     json = input.val()
 
-    $("button").html("Loading...").attr("disabled","disabled")
+#     try
+#       JSON.parse json
+#     catch e
+#       error "JSON Error: #{e}"
+#       return
 
-    req = $.ajax
-      type: 'POST'
-      url: '/job'
-      timeout: 0
-      data: json
+#     $("button").html("Loading...").attr("disabled","disabled")
 
-    req.always (result, status, err) ->
-      $("button").html("Run").removeAttr("disabled")
-      if status is 'success'
-        output.val JSON.stringify result, null, 2
-      else
-        console.log result.responseText
-        error "Error: #{result.responseText}"
-    
+
+
+App.run () ->
+
+
