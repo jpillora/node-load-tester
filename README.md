@@ -19,17 +19,9 @@
 * Control test duration with `duration`
 * Control number of runs with `runs`
 * Set custom `headers`
-* Create a set of `baseUrls`, randomly choosing a `baseUrl` to test against
-* Create a set of `forms`, randomly choosing a `form` to POST with
+* Round-robin around a set of `origins`
+* Round-robin around a set of `forms`
 * Create response expectations based on status code and body contents
-
-## Future
-
-* Nice WebUI **(Pull Request Anyone?)**
-  * Dynamic Angular Form to construct a `Job` object
-  * Nice display of results object
-* Cancel jobs
-* Modify result object to mirror the `Request` object 
 
 ## Install
 ```
@@ -64,7 +56,7 @@ We'll target `http://echo.jpillora.com`, run the following sequence:
 <showFile("example/basic.json")>
 ``` json
 {
-  "baseUrl": "http://echo.jpillora.com",
+  "origin": "http://echo.jpillora.com",
   "duration": 5000,
   "connections": 1,
   "sequence": [
@@ -128,8 +120,8 @@ Create a load test `Job`
 
 ### `Job` Object Properties
 
-* `baseUrl` (String) - Target URL
-* `baseUrls` (Array[String]) - Target URLs
+* `origin` (String) - Target URL
+* `origins` (Array[String]) - Target URLs
 * `headers` (Object) - Header/Value pairs to apply to all `Request`s
 * `runs` (Number) - Number of times to run through the `sequence`
 * `duration` (Number) - Keep running through the `sequence` for `duration`ms
@@ -139,7 +131,7 @@ Create a load test `Job`
 ### `Request` Object Properties
 
 * `method` (String) - HTTP Method to use (default:`"GET"`)
-* `path` (String) - URL Path to be appended to `baseUrl`
+* `path` (String) - URL Path to be appended to `origin`
 * `headers` (Object) - Header/Value pairs to apply to this `Request` (overrides `Job` `headers`)
 * `form` (Object) - Object to application/form encode
 * `forms` (Array[Object]) - Round-robin through objects to application/form encode
@@ -164,7 +156,7 @@ Create a load test `Job`
 <showFile("example/random-forms.json")>
 ``` json
 {
-  "baseUrl": "http://echo.jpillora.com",
+  "origin": "http://echo.jpillora.com",
   "duration": 5000,
   "connections": 1,
   "sequence": [
@@ -184,7 +176,7 @@ Create a load test `Job`
 <showFile("example/expectations.json")>
 ``` json
 {
-  "baseUrl": "http://echo.jpillora.com",
+  "origin": "http://echo.jpillora.com",
   "runs": 3,
   "connections": 1,
   "sequence": [
@@ -201,14 +193,14 @@ Create a load test `Job`
 
 #### Simulate load balancer
 
-*Every request will round-robin through the `baseUrls`*
+*Every request will round-robin through the `origins`*
 
 *Requests may also specify a `header` object which will override the job's `header` object*
 
 <showFile("example/load-balancer.json")>
 ``` json
 {
-  "baseUrls": [
+  "origins": [
     "http://74.125.237.114",
     "http://74.125.237.115",
     "http://74.125.237.116"

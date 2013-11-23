@@ -6,85 +6,145 @@
     <link rel="stylesheet" href="/css/app.css">
   </head>
   <body ng-app="load-tester"><a href="https://github.com/jpillora/node-load-tester"><img style="position: absolute; z-index: 2; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
-    <div class="ui vertical segment">
-      <div class="ui huge header">node-load-tester</div>
-    </div>
-    <div class="ui form green segment">
-      <div class="ui ribbon label">Job</div>
-      <div class="field">
-        <label>Origin (Protocol and Domain)</label>
-        <div class="ui small left labeled action icon input">
-          <input type="text" placeholder="http://example.com">
-          <div class="ui small button">Add another</div><i class="url icon"></i>
-        </div>
-      </div>
-      <div class="ui three fields">
-        <div class="field">
-          <div class="ui small input">
-            <label>Duration</label>
-            <input type="text" placeholder="5000">
-          </div>
-        </div>
-        <div class="field">
-          <div class="ui small input">
-            <label>Runs</label>
-            <input type="text" placeholder="5">
-          </div>
-        </div>
-        <div class="field">
-          <div class="ui small input">
-            <label>Connections</label>
-            <input type="text" placeholder="1">
-          </div>
-        </div>
-      </div>
-      <div class="ui green label">Sequence</div>
-      <div class="ui raised green segment">
-        <div class="ui middle aligned three column grid">
-          <div class="row">
-            <div class="column">
-              <div class="ui small input">
-                <label>Method</label>
-                <input type="text" placeholder="GET">
-              </div>
+    <div ng-controller="Input" class="ui form green segment">
+      <div class="ui ribbon label">Load Test Job</div>
+      <div class="ui bottom aligned grid">
+        <div class="row">
+          <div class="six wide column">
+            <div class="ui small input">
+              <label>Origin</label>
+              <input type="text" placeholder="http://example.com" ng-model="origin">
             </div>
-            <div class="column">
-              <div class="ui small input">
-                <label>Path</label>
-                <input type="text" placeholder="/">
-              </div>
+          </div>
+          <div class="two wide column">
+            <div class="ui small input">
+              <label>Duration (ms)</label>
+              <input type="text" placeholder="5000" ng-model="duration">
             </div>
-            <div class="column">
-              <div class="ui center aligned two column grid">
+          </div>
+          <div class="two wide column">
+            <div class="ui small input">
+              <label>Runs</label>
+              <input type="text" placeholder="5" ng-model="runs">
+            </div>
+          </div>
+          <div class="two wide column">
+            <div class="ui small input">
+              <label>Connections</label>
+              <input type="text" placeholder="1" ng-model="connections">
+            </div>
+          </div>
+          <div class="two wide column">
+            <div class="ui vertical animated button">
+              <div class="visible content">More</div>
+              <div class="hidden content"><i class="down arrow icon"></i></div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="sixteen wide column">
+            <div class="ui green label">Sequence</div>
+            <div ng-repeat="seq in sequence" ng-class="{faded: !seq.method &amp;&amp; !seq.path}" class="ui raised green segment">
+              <div style="padding-bottom:10px" class="ui bottom aligned grid">
                 <div class="row">
-                  <div class="column">
-                    <div class="ui small button">Add Header</div>
+                  <div class="two wide column">
+                    <div class="ui small input">
+                      <label>Method</label>
+                      <input type="text" placeholder="GET" ng-model="seq.method" ng-change="updateSeqence()">
+                    </div>
                   </div>
-                  <div class="column">
-                    <div class="ui small button">Add Form</div>
+                  <div class="four wide column">
+                    <div class="ui small input">
+                      <label>Path</label>
+                      <input type="text" placeholder="/" ng-model="seq.path" ng-change="updateSeqence()">
+                    </div>
+                  </div>
+                  <div class="two wide column">
+                    <div class="ui small input">
+                      <label>Expect Code</label>
+                      <input type="text" placeholder="200">
+                    </div>
+                  </div>
+                  <div class="two wide column">
+                    <div class="ui small input">
+                      <label>Expect Contains</label>
+                      <input type="text">
+                    </div>
+                  </div>
+                  <div class="two wide column">
+                    <div class="ui small input">
+                      <label>Expect Match</label>
+                      <input type="text">
+                    </div>
+                  </div>
+                  <div class="two wide column">
+                    <div class="ui vertical animated button">
+                      <div class="visible content">More</div>
+                      <div class="hidden content"><i class="down arrow icon"></i></div>
+                    </div>
+                  </div>
+                </div>
+                <div style="display:none" class="row">
+                  <div class="eight wide column">
+                    <div class="ui segment">
+                      <div class="ui ribbon label">Headers</div>
+                      <div class="ui grid">
+                        <div class="eight wide column">
+                          <div class="ui small input">
+                            <label>Header</label>
+                            <input type="text" placeholder="Content-type">
+                          </div>
+                        </div>
+                        <div class="eight wide column">
+                          <div class="ui small input">
+                            <label>Value</label>
+                            <input type="text" placeholder="application/json">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="eight wide column">
+                    <div class="ui segment">
+                      <div class="ui ribbon label">Form</div>
+                      <div class="ui grid">
+                        <div class="eight wide column">
+                          <div class="ui small input">
+                            <label>Key</label>
+                            <input type="text" placeholder="foo">
+                          </div>
+                        </div>
+                        <div class="eight wide column">
+                          <div class="ui small input">
+                            <label>Value</label>
+                            <input type="text" placeholder="42">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="row">
+          <div class="sixteen center aligned wide column">
+            <div ng-click="start()" ng-class="{loading: loading}" class="ui large blue submit button">Start</div>
+            <div ng-click="stop()" ng-class="{disabled: !loading}" class="ui large red submit button">Stop</div>
+          </div>
+        </div>
       </div>
-      <div class="ui blue submit button">Start</div>
     </div>
     <div class="ui form red segment">
       <div class="ui ribbon label">Results</div>
       <div class="field">
-        <label>Origin (Protocol and Domain)</label>
-        <div class="ui small left labeled icon input">
-          <input type="text" placeholder="http://example.com"><i class="url icon"></i>
-        </div>
+        <label>Times...</label>
       </div>
     </div>
-    <script>
-      var DEFAULT_INPUT = "{\n  \"baseUrl\": \"http://echo.jpillora.com\",\n  \"duration\": 5000,\n  \"connections\": 1,\n  \"sequence\": [\n    { \"method\": \"GET\",  \"path\": \"/\" },\n    { \"method\": \"POST\", \"path\": \"/api/login\",  \"form\":{\"username\":\"foo\",\"password\":\"bar\"} },\n    { \"method\": \"GET\",  \"path\": \"/test/user\" },\n    { \"method\": \"GET\",  \"path\": \"/logout\" },\n    { \"method\": \"GET\",  \"path\": \"/test/user\", \"expect\": { \"code\": 404 } }\n  ]\n}"
-      
-    </script>
+    <p><a href="http://github.com/jpillora">jpillora</a> MIT &copy; 2013</p>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.9.3/javascript/semantic.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.js"></script>
     <script src="/js/app.js"></script>
   </body>

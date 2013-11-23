@@ -604,9 +604,102 @@ $.notify.addStyle("bootstrap", {
 
   App = angular.module("load-tester", []);
 
-  App.controller('Input', function(scope) {});
+  App.controller('Input', function($scope, jobs) {
+    var scope;
+    scope = window.sc = $scope;
+    scope.origin = 'http://echo.jpillora.com';
+    scope.duration = 5000;
+    scope.runs = void 0;
+    scope.connections = 1;
+    scope.sequence = [
+      {
+        method: 'GET',
+        path: '/'
+      }
+    ];
+    scope.updateSeqence = function() {
+      var full, h, i, spare, _i, _len, _ref;
+      spare = -1;
+      full = true;
+      _ref = scope.sequence;
+      for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
+        h = _ref[i];
+        if (!h.method || !h.path) {
+          if (!full) {
+            spare = i;
+          }
+          full = false;
+        }
+      }
+      if (full) {
+        return scope.sequence.push({});
+      } else if (!full && spare >= 1) {
+        return scope.sequence.splice(spare, 1);
+      }
+    };
+    scope.start = function() {
+      var data, seq, _i, _len, _ref;
+      if (scope.loading) {
+        return;
+      }
+      data = {
+        sequence: []
+      };
+      ['origin', 'duration', 'runs', 'connections'].forEach(function(k) {
+        return data[k] = scope[k];
+      });
+      _ref = scope.sequence;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        seq = _ref[_i];
+        if (seq.method && seq.path) {
+          data.sequence.push(seq);
+        }
+      }
+      scope.loading = true;
+      return jobs.run(data)["finally"](function() {
+        return scope.loading = false;
+      });
+    };
+    scope.updateSeqence();
+  });
 
   App.controller('Output', function(scope) {});
+
+  App.factory('jobs', function($rootScope, $http, $q) {
+    var scope;
+    scope = window.jobs = $rootScope.$new(true);
+    scope.run = function(data) {
+      var d, success, xhr;
+      d = $q.defer();
+      xhr = new XMLHttpRequest;
+      xhr.open('POST', '/job');
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 2) {
+          console.log('headers', xhr.getAllResponseHeaders());
+        }
+        if (xhr.readyState === 4) {
+          console.log('done!');
+          if (xhr.status === 200) {
+            return success(xhr.responseText);
+          } else {
+            return error(xhr.responseText);
+          }
+        }
+      };
+      xhr.setRequestHeader('Content-type', 'application/json');
+      xhr.send(JSON.stringify(data));
+      success = function(data) {
+        console.log(data);
+        return d.resolve(data);
+      };
+      error = function(data) {
+        console.error(data);
+        return d.reject(data);
+      };
+      return d.promise;
+    };
+    return scope;
+  });
 
   App.run(function() {});
 

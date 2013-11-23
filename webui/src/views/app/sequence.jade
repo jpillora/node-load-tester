@@ -1,0 +1,59 @@
+
+.ui.raised.green.segment(ng-repeat="seq in sequence",
+                         ng-class="{faded: !seq.method && !seq.path}")
+  .ui.bottom.aligned.grid(style="padding-bottom:10px")
+    //- method and path
+    .row
+      .two.wide.column
+        .ui.small.input
+          label Method
+          input(type='text', placeholder='GET',
+                ng-model="seq.method",
+                ng-change="updateSeqence()")
+      .four.wide.column
+        .ui.small.input
+          label Path
+          input(type='text', placeholder='/',
+                ng-model="seq.path",
+                ng-change="updateSeqence()")
+      .two.wide.column
+        .ui.small.input
+          label Expect Code
+          input(type='text', placeholder='200')
+      .two.wide.column
+        .ui.small.input
+          label Expect Contains
+          input(type='text')
+      .two.wide.column
+        .ui.small.input
+          label Expect Match
+          input(type='text')
+      .two.wide.column
+        .ui.vertical.animated.button
+          .visible.content More
+          .hidden.content
+            i.down.arrow.icon
+
+
+    //- headers and forms
+    .row(style="display:none")
+      .eight.wide.column
+        .ui.segment
+          .ui.ribbon.label Headers
+          .ui.grid
+            .eight.wide.column: .ui.small.input
+              label Header
+              input(type='text', placeholder='Content-type')
+            .eight.wide.column: .ui.small.input
+              label Value
+              input(type='text', placeholder='application/json')
+      .eight.wide.column
+        .ui.segment
+          .ui.ribbon.label Form
+          .ui.grid
+            .eight.wide.column: .ui.small.input
+              label Key
+              input(type='text', placeholder='foo')
+            .eight.wide.column: .ui.small.input
+              label Value
+              input(type='text', placeholder='42')

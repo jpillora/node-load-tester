@@ -1,5 +1,3 @@
-App.controller 'Input', (scope) ->
-  return
 
 App.controller 'Output', (scope) ->
   return
