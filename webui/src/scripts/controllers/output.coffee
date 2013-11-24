@@ -1,5 +1,11 @@
 
-App.controller 'Output', (scope) ->
+App.controller 'Output', ($scope, jobs) ->
+
+  $scope.results = ""
+  jobs.$on 'results', (event, results) ->
+    $scope.results = JSON.stringify results, null, 2
+
+
   return
 
 

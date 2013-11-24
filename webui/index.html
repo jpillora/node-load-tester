@@ -43,7 +43,7 @@
         </div>
         <div class="row">
           <div class="sixteen wide column">
-            <div class="ui green label">Sequence</div>
+            <div class="ui green label">Request Sequence</div>
             <div ng-repeat="seq in sequence" ng-class="{faded: !seq.method &amp;&amp; !seq.path}" class="ui raised green segment">
               <div style="padding-bottom:10px" class="ui bottom aligned grid">
                 <div class="row">
@@ -136,13 +136,13 @@
         </div>
       </div>
     </div>
-    <div class="ui form red segment">
-      <div class="ui ribbon label">Results</div>
-      <div class="field">
-        <label>Times...</label>
-      </div>
+    <div ng-controller="Output" class="ui form red segment">
+      <div class="ui ribbon label">Results</div><code>
+        <pre ng-bind="results || 'No results yet'"></pre></code>
     </div>
-    <p><a href="http://github.com/jpillora">jpillora</a> MIT &copy; 2013</p>
+    <div class="ui right aligned basic segment">
+      <div class="ui blue label"><a href="http://github.com/jpillora">jpillora</a> MIT &copy; 2013</div>
+    </div>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.9.3/javascript/semantic.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.js"></script>

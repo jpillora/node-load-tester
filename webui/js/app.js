@@ -663,42 +663,26 @@ $.notify.addStyle("bootstrap", {
     scope.updateSeqence();
   });
 
-  App.controller('Output', function(scope) {});
+  App.controller('Output', function($scope, jobs) {
+    $scope.results = "";
+    jobs.$on('results', function(event, results) {
+      return $scope.results = JSON.stringify(results, null, 2);
+    });
+  });
 
   App.factory('jobs', function($rootScope, $http, $q) {
-    var scope;
-    scope = window.jobs = $rootScope.$new(true);
-    scope.run = function(data) {
-      var d, success, xhr;
-      d = $q.defer();
-      xhr = new XMLHttpRequest;
-      xhr.open('POST', '/job');
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState === 2) {
-          console.log('headers', xhr.getAllResponseHeaders());
-        }
-        if (xhr.readyState === 4) {
-          console.log('done!');
-          if (xhr.status === 200) {
-            return success(xhr.responseText);
-          } else {
-            return error(xhr.responseText);
-          }
-        }
-      };
-      xhr.setRequestHeader('Content-type', 'application/json');
-      xhr.send(JSON.stringify(data));
-      success = function(data) {
-        console.log(data);
-        return d.resolve(data);
-      };
-      error = function(data) {
-        console.error(data);
-        return d.reject(data);
-      };
-      return d.promise;
+    var jobs;
+    jobs = window.jobs = $rootScope.$new(true);
+    jobs.run = function(data) {
+      return $http.post('/job', data).success(function(results) {
+        console.log("job results", results);
+        return jobs.$emit('results', results);
+      }).error(function(err) {
+        console.error("job error", err);
+        return jobs.$emit('error', err);
+      });
     };
-    return scope;
+    return jobs;
   });
 
   App.run(function() {});

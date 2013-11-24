@@ -1,5 +1,3 @@
-.ui.form.red.segment
+.ui.form.red.segment(ng-controller="Output")
   .ui.ribbon.label Results
-
-  .field
-    label Times...
+  code: pre(ng-bind="results || 'No results yet'")
