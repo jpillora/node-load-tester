@@ -13,25 +13,25 @@
           <div class="six wide column">
             <div class="ui small input">
               <label>Origin</label>
-              <input type="text" placeholder="http://example.com" ng-model="origin">
+              <input type="text" placeholder="http://example.com" ng-model="input.origin">
             </div>
           </div>
           <div class="two wide column">
             <div class="ui small input">
               <label>Duration (ms)</label>
-              <input type="text" placeholder="5000" ng-model="duration">
+              <input type="text" placeholder="5000" ng-model="input.duration">
             </div>
           </div>
           <div class="two wide column">
             <div class="ui small input">
               <label>Runs</label>
-              <input type="text" placeholder="5" ng-model="runs">
+              <input type="text" placeholder="5" ng-model="input.runs">
             </div>
           </div>
           <div class="two wide column">
             <div class="ui small input">
               <label>Connections</label>
-              <input type="text" placeholder="1" ng-model="connections">
+              <input type="text" placeholder="1" ng-model="input.connections">
             </div>
           </div>
           <div class="two wide column">
@@ -44,7 +44,7 @@
         <div class="row">
           <div class="sixteen wide column">
             <div class="ui green label">Request Sequence</div>
-            <div ng-repeat="seq in sequence" ng-class="{faded: !seq.method &amp;&amp; !seq.path}" class="ui raised green segment">
+            <div ng-repeat="seq in input.sequence" ng-class="{faded: !seq.method &amp;&amp; !seq.path}" class="ui raised green segment">
               <div style="padding-bottom:10px" class="ui bottom aligned grid">
                 <div class="row">
                   <div class="two wide column">
@@ -78,16 +78,15 @@
                     </div>
                   </div>
                   <div class="two wide column">
-                    <div class="ui vertical animated button">
-                      <div class="visible content">More</div>
-                      <div class="hidden content"><i class="down arrow icon"></i></div>
+                    <div ng-click="more = !more" class="ui vertical animated button">
+                      <div ng-bind="more &amp;&amp; &quot;Less&quot; || &quot;More&quot;" class="visible content">More</div>
+                      <div class="hidden content"><i ng-class="more &amp;&amp; &quot;up&quot; || &quot;down&quot;" class="arrow icon"></i></div>
                     </div>
                   </div>
                 </div>
-                <div style="display:none" class="row">
+                <div ng-show="more" class="row">
                   <div class="eight wide column">
-                    <div class="ui segment">
-                      <div class="ui ribbon label">Headers</div>
+                    <div class="ui basic segment">
                       <div class="ui grid">
                         <div class="eight wide column">
                           <div class="ui small input">
@@ -105,8 +104,7 @@
                     </div>
                   </div>
                   <div class="eight wide column">
-                    <div class="ui segment">
-                      <div class="ui ribbon label">Form</div>
+                    <div class="ui basic segment">
                       <div class="ui grid">
                         <div class="eight wide column">
                           <div class="ui small input">
@@ -143,8 +141,7 @@
     <div class="ui right aligned basic segment">
       <div class="ui blue label"><a href="http://github.com/jpillora">jpillora</a> MIT &copy; 2013</div>
     </div>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.9.3/javascript/semantic.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.js"></script>
     <script src="/js/app.js"></script>
   </body>

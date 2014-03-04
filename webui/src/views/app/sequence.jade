@@ -1,5 +1,5 @@
 
-.ui.raised.green.segment(ng-repeat="seq in sequence",
+.ui.raised.green.segment(ng-repeat="seq in input.sequence",
                          ng-class="{faded: !seq.method && !seq.path}")
   .ui.bottom.aligned.grid(style="padding-bottom:10px")
     //- method and path
@@ -29,17 +29,15 @@
           label Expect Match
           input(type='text')
       .two.wide.column
-        .ui.vertical.animated.button
-          .visible.content More
+        .ui.vertical.animated.button(ng-click='more = !more')
+          .visible.content(ng-bind='more && "Less" || "More"') More
           .hidden.content
-            i.down.arrow.icon
-
+            i.arrow.icon(ng-class='more && "up" || "down"')
 
     //- headers and forms
-    .row(style="display:none")
+    .row(ng-show='more')
       .eight.wide.column
-        .ui.segment
-          .ui.ribbon.label Headers
+        .ui.basic.segment
           .ui.grid
             .eight.wide.column: .ui.small.input
               label Header
@@ -48,8 +46,7 @@
               label Value
               input(type='text', placeholder='application/json')
       .eight.wide.column
-        .ui.segment
-          .ui.ribbon.label Form
+        .ui.basic.segment
           .ui.grid
             .eight.wide.column: .ui.small.input
               label Key

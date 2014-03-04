@@ -7,27 +7,28 @@
         .ui.small.input
           label Origin
           input(type='text', placeholder='http://example.com',
-                ng-model='origin')
+                ng-model='input.origin')
       .two.wide.column
         .ui.small.input
           label Duration (ms)
           input(type='text', placeholder='5000',
-                ng-model='duration')
+                ng-model='input.duration')
       .two.wide.column
         .ui.small.input
           label Runs
           input(type='text', placeholder='5',
-                ng-model='runs')
+                ng-model='input.runs')
       .two.wide.column
         .ui.small.input
           label Connections
           input(type='text', placeholder='1',
-                ng-model='connections')
+                ng-model='input.connections')
       .two.wide.column
         .ui.vertical.animated.button
           .visible.content More
           .hidden.content
             i.down.arrow.icon
+
     .row
       .sixteen.wide.column
         .ui.green.label Request Sequence
@@ -35,9 +36,7 @@
 
     .row
       .sixteen.center.aligned.wide.column
-        .ui.large.blue.submit.button(ng-click="start()",
-                                     ng-class="{loading: loading}")
+        .ui.large.blue.submit.button(ng-click="start()", ng-class="{loading: loading}")
           | Start
-        .ui.large.red.submit.button(ng-click="stop()",
-                                     ng-class="{disabled: !loading}")
+        .ui.large.red.submit.button(ng-click="stop()", ng-class="{disabled: !loading}")
           | Stop
