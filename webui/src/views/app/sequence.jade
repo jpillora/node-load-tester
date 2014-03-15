@@ -1,33 +1,38 @@
 
+
+.ui.green.label: h4 REQUEST SEQUENCE
 .ui.raised.green.segment(ng-repeat="seq in input.sequence",
-                         ng-class="{faded: !seq.method && !seq.path}")
-  .ui.bottom.aligned.grid(style="padding-bottom:10px")
+                         ng-class="{faded: !seq.path}")
+  .ui.grid(style="padding-bottom:10px")
     //- method and path
-    .row
-      .two.wide.column
+    .bottom.aligned.row
+      .four.wide.column
         .ui.small.input
           label Method
-          input(type='text', placeholder='GET',
-                ng-model="seq.method",
-                ng-change="updateSeqence()")
-      .four.wide.column
+          .ui.buttons
+            .ui.tiny.button(ng-repeat="m in methods",
+                            ng-click="seq.method = m;"
+                            ng-class="{blue:seq.method == m}") {{ m }}
+      .three.wide.column
         .ui.small.input
           label Path
           input(type='text', placeholder='/',
                 ng-model="seq.path",
-                ng-change="updateSeqence()")
-      .two.wide.column
+                ng-change="check(input.sequence, 'path')")
+
+      .four.wide.column
         .ui.small.input
-          label Expect Code
-          input(type='text', placeholder='200')
-      .two.wide.column
-        .ui.small.input
-          label Expect Contains
-          input(type='text')
-      .two.wide.column
-        .ui.small.input
-          label Expect Match
-          input(type='text')
+          label Expectation
+          .ui.buttons(ng-init="seq.$expect = 'status'; seq.expect = {status:200};")
+            .ui.tiny.button(ng-repeat="(code,str) in expects"
+                            ng-click="seq.expect = {}; seq.$expect = code;"
+                            ng-class="{blue:seq.$expect == code}") {{ code }}
+      .three.wide.column
+        .ui.small.input(ng-repeat="(code,str) in expects",
+                        ng-show="seq.$expect == code")
+          label Expect {{ str }}
+          input(type='text', ng-model="seq.expect[code]")
+
       .two.wide.column
         .ui.vertical.animated.button(ng-click='more = !more')
           .visible.content(ng-bind='more && "Less" || "More"') More
@@ -38,19 +43,39 @@
     .row(ng-show='more')
       .eight.wide.column
         .ui.basic.segment
-          .ui.grid
-            .eight.wide.column: .ui.small.input
-              label Header
-              input(type='text', placeholder='Content-type')
-            .eight.wide.column: .ui.small.input
-              label Value
-              input(type='text', placeholder='application/json')
+          .ui.grid(ng-init="seq.form = [{}]")
+            .row
+              .eight.wide.column: .ui.small.input
+                label Form Field Name
+              .eight.wide.column: .ui.small.input
+                label Form Field Value
+            .row(ng-repeat="f in seq.form")
+              .eight.wide.column: .ui.small.input
+                input(type='text',
+                  placeholder='foo',
+                  ng-model="f.key",
+                  ng-change="check(seq.form, 'key', 'value')")
+              .eight.wide.column: .ui.small.input
+                input(type='text',
+                  placeholder='42',
+                  ng-model="f.value",
+                  ng-change="check(seq.form, 'key', 'value')")
       .eight.wide.column
         .ui.basic.segment
-          .ui.grid
-            .eight.wide.column: .ui.small.input
-              label Key
-              input(type='text', placeholder='foo')
-            .eight.wide.column: .ui.small.input
-              label Value
-              input(type='text', placeholder='42')
+          .ui.grid(ng-init="seq.headers = [{}]")
+            .row
+              .eight.wide.column: .ui.small.input
+                label Header Name
+              .eight.wide.column: .ui.small.input
+                label Header Value
+            .row(ng-repeat="h in seq.headers")
+              .eight.wide.column: .ui.small.input
+                input(type='text',
+                      placeholder='Content-type',
+                      ng-model="h.key",
+                      ng-change="check(seq.headers, 'key', 'value')")
+              .eight.wide.column: .ui.small.input
+                input(type='text',
+                      placeholder='application/json',
+                      ng-model="h.value",
+                      ng-change="check(seq.headers, 'key', 'value')")

@@ -1,25 +1,16 @@
 
 App.controller 'Output', ($scope, jobs) ->
-
   $scope.results = ""
-  jobs.$on 'results', (event, results) ->
-    $scope.results = JSON.stringify results, null, 2
+  
 
+  jobs.$on 'started', (event, index) ->
+    $scope.results = "started job ##{index}..."
+
+  jobs.$on 'progress', (event, job) ->
+    $scope.results = JSON.stringify job, null, 2
+
+  jobs.$on 'finished', (event, job) ->
+    $scope.results = JSON.stringify job, null, 2
 
   return
-
-
-    # req = $.ajax
-    #   type: 'POST'
-    #   url: '/job'
-    #   timeout: 0
-    #   data: json
-
-    # req.always (result, status, err) ->
-    #   $("button").html("Run").removeAttr("disabled")
-    #   if status is 'success'
-    #     output.val JSON.stringify result, null, 2
-    #   else
-    #     console.log result.responseText
-    #     error "Error: #{result.responseText}"
 

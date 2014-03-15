@@ -1,4 +1,4 @@
-!!!5
+doctype html
 html
   head
     link(rel="stylesheet", href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.9.3/css/semantic.min.css")
@@ -7,10 +7,24 @@ html
 
   body(ng-app="load-tester")
 
-    a(href="https://github.com/jpillora/node-load-tester")
-      img(style="position: absolute; z-index: 2; top: 0; right: 0; border: 0;",
-          src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png",
+    a.faded(href="https://github.com/jpillora/node-load-tester",
+            style="position: absolute; z-index: 9999999; top: 0; right: 0; border: 0;")
+      img(src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png",
           alt="Fork me on GitHub")
+
+    .ui.menu
+      a.item
+        | Load Tester
+      //- a.item
+      //-   i.mail.icon
+      //-   | Messages
+      .right.menu
+        a.item
+          i.mail.icon
+          | Import
+        a.item(style="padding-right:100px")
+          i.mail.icon
+          | Export
 
     include app/input
     include app/output
@@ -18,10 +32,10 @@ html
     .ui.right.aligned.basic.segment
       .ui.blue.label
         a(href="http://github.com/jpillora") jpillora
-        |  MIT &copy; 2013
+        |  &copy; 2014 MIT
 
     script(src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash#{min}.js")
-    script(src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular#{min}.js")
+    script(src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular#{min}.js")
     //- script(src="//cdn.sockjs.org/sockjs-0.3.min.js")
     script(src="/js/app.js")
 

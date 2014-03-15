@@ -5,9 +5,11 @@
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto+Condensed">
     <link rel="stylesheet" href="/css/app.css">
   </head>
-  <body ng-app="load-tester"><a href="https://github.com/jpillora/node-load-tester"><img style="position: absolute; z-index: 2; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
-    <div ng-controller="Input" class="ui form green segment">
-      <div class="ui ribbon label">Load Test Job</div>
+  <body ng-app="load-tester"><a href="https://github.com/jpillora/node-load-tester" style="position: absolute; z-index: 9999999; top: 0; right: 0; border: 0;" class="faded"><img src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a>
+    <div class="ui menu"><a class="item">Load Tester</a>
+      <div class="right menu"><a class="item"><i class="mail icon"></i>Import</a><a style="padding-right:100px" class="item"><i class="mail icon"></i>Export</a></div>
+    </div>
+    <div ng-controller="Input" class="ui inputs form green segment">
       <div class="ui bottom aligned grid">
         <div class="row">
           <div class="six wide column">
@@ -35,87 +37,148 @@
             </div>
           </div>
           <div class="two wide column">
-            <div class="ui vertical animated button">
-              <div class="visible content">More</div>
-              <div class="hidden content"><i class="down arrow icon"></i></div>
+            <div ng-click="more = !more" class="ui vertical animated button">
+              <div ng-bind="more &amp;&amp; &quot;Less&quot; || &quot;More&quot;" class="visible content">More</div>
+              <div class="hidden content"><i ng-class="more &amp;&amp; &quot;up&quot; || &quot;down&quot;" class="arrow icon"></i></div>
+            </div>
+          </div>
+        </div>
+        <div ng-show="more" class="row">
+          <div class="eight wide column">
+            <div ng-class="{faded: seq.method == 'GET'}" class="ui basic segment">foo</div>
+          </div>
+          <div class="eight wide column">
+            <div class="ui basic segment">
+              <div ng-init="input.headers = [{}]" class="ui grid">
+                <div class="row">
+                  <div class="eight wide column">
+                    <div class="ui small input">
+                      <label>Header Name</label>
+                    </div>
+                  </div>
+                  <div class="eight wide column">
+                    <div class="ui small input">
+                      <label>Header Value</label>
+                    </div>
+                  </div>
+                </div>
+                <div ng-repeat="h in input.headers" class="row">
+                  <div class="eight wide column">
+                    <div class="ui small input">
+                      <input type="text" placeholder="Content-type" ng-model="h.key" ng-change="check(input.headers, 'key', 'value')">
+                    </div>
+                  </div>
+                  <div class="eight wide column">
+                    <div class="ui small input">
+                      <input type="text" placeholder="application/json" ng-model="h.value" ng-change="check(input.headers, 'key', 'value')">
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div class="row">
-          <div class="sixteen wide column">
-            <div class="ui green label">Request Sequence</div>
-            <div ng-repeat="seq in input.sequence" ng-class="{faded: !seq.method &amp;&amp; !seq.path}" class="ui raised green segment">
-              <div style="padding-bottom:10px" class="ui bottom aligned grid">
-                <div class="row">
-                  <div class="two wide column">
-                    <div class="ui small input">
-                      <label>Method</label>
-                      <input type="text" placeholder="GET" ng-model="seq.method" ng-change="updateSeqence()">
-                    </div>
-                  </div>
-                  <div class="four wide column">
-                    <div class="ui small input">
-                      <label>Path</label>
-                      <input type="text" placeholder="/" ng-model="seq.path" ng-change="updateSeqence()">
-                    </div>
-                  </div>
-                  <div class="two wide column">
-                    <div class="ui small input">
-                      <label>Expect Code</label>
-                      <input type="text" placeholder="200">
-                    </div>
-                  </div>
-                  <div class="two wide column">
-                    <div class="ui small input">
-                      <label>Expect Contains</label>
-                      <input type="text">
-                    </div>
-                  </div>
-                  <div class="two wide column">
-                    <div class="ui small input">
-                      <label>Expect Match</label>
-                      <input type="text">
-                    </div>
-                  </div>
-                  <div class="two wide column">
-                    <div ng-click="more = !more" class="ui vertical animated button">
-                      <div ng-bind="more &amp;&amp; &quot;Less&quot; || &quot;More&quot;" class="visible content">More</div>
-                      <div class="hidden content"><i ng-class="more &amp;&amp; &quot;up&quot; || &quot;down&quot;" class="arrow icon"></i></div>
-                    </div>
-                  </div>
-                </div>
-                <div ng-show="more" class="row">
-                  <div class="eight wide column">
-                    <div class="ui basic segment">
-                      <div class="ui grid">
-                        <div class="eight wide column">
-                          <div class="ui small input">
-                            <label>Header</label>
-                            <input type="text" placeholder="Content-type">
-                          </div>
+          <div class="sixteen center aligned wide column">
+            <div class="ui form basic segment">
+              <div class="ui green label">
+                <h4>REQUEST SEQUENCE</h4>
+              </div>
+              <div ng-repeat="seq in input.sequence" ng-class="{faded: !seq.path}" class="ui raised green segment">
+                <div style="padding-bottom:10px" class="ui grid">
+                  <div class="bottom aligned row">
+                    <div class="four wide column">
+                      <div class="ui small input">
+                        <label>Method</label>
+                        <div class="ui buttons">
+                          <div ng-repeat="m in methods" ng-click="seq.method = m;" ng-class="{blue:seq.method == m}" class="ui tiny button">{{ m }}</div>
                         </div>
-                        <div class="eight wide column">
-                          <div class="ui small input">
-                            <label>Value</label>
-                            <input type="text" placeholder="application/json">
+                      </div>
+                    </div>
+                    <div class="three wide column">
+                      <div class="ui small input">
+                        <label>Path</label>
+                        <input type="text" placeholder="/" ng-model="seq.path" ng-change="check(input.sequence, 'path')">
+                      </div>
+                    </div>
+                    <div class="four wide column">
+                      <div class="ui small input">
+                        <label>Expectation</label>
+                        <div ng-init="seq.$expect = 'status'; seq.expect = {status:200};" class="ui buttons">
+                          <div ng-repeat="(code,str) in expects" ng-click="seq.expect = {}; seq.$expect = code;" ng-class="{blue:seq.$expect == code}" class="ui tiny button">{{ code }}</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="three wide column">
+                      <div ng-repeat="(code,str) in expects" ng-show="seq.$expect == code" class="ui small input">
+                        <label>Expect {{ str }}</label>
+                        <input type="text" ng-model="seq.expect[code]">
+                      </div>
+                    </div>
+                    <div class="two wide column">
+                      <div ng-click="more = !more" class="ui vertical animated button">
+                        <div ng-bind="more &amp;&amp; &quot;Less&quot; || &quot;More&quot;" class="visible content">More</div>
+                        <div class="hidden content"><i ng-class="more &amp;&amp; &quot;up&quot; || &quot;down&quot;" class="arrow icon"></i></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div ng-show="more" class="row">
+                    <div class="eight wide column">
+                      <div class="ui basic segment">
+                        <div ng-init="seq.form = [{}]" class="ui grid">
+                          <div class="row">
+                            <div class="eight wide column">
+                              <div class="ui small input">
+                                <label>Form Field Name</label>
+                              </div>
+                            </div>
+                            <div class="eight wide column">
+                              <div class="ui small input">
+                                <label>Form Field Value</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div ng-repeat="f in seq.form" class="row">
+                            <div class="eight wide column">
+                              <div class="ui small input">
+                                <input type="text" placeholder="foo" ng-model="f.key" ng-change="check(seq.form, 'key', 'value')">
+                              </div>
+                            </div>
+                            <div class="eight wide column">
+                              <div class="ui small input">
+                                <input type="text" placeholder="42" ng-model="f.value" ng-change="check(seq.form, 'key', 'value')">
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="eight wide column">
-                    <div class="ui basic segment">
-                      <div class="ui grid">
-                        <div class="eight wide column">
-                          <div class="ui small input">
-                            <label>Key</label>
-                            <input type="text" placeholder="foo">
+                    <div class="eight wide column">
+                      <div class="ui basic segment">
+                        <div ng-init="seq.headers = [{}]" class="ui grid">
+                          <div class="row">
+                            <div class="eight wide column">
+                              <div class="ui small input">
+                                <label>Header Name</label>
+                              </div>
+                            </div>
+                            <div class="eight wide column">
+                              <div class="ui small input">
+                                <label>Header Value</label>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                        <div class="eight wide column">
-                          <div class="ui small input">
-                            <label>Value</label>
-                            <input type="text" placeholder="42">
+                          <div ng-repeat="h in seq.headers" class="row">
+                            <div class="eight wide column">
+                              <div class="ui small input">
+                                <input type="text" placeholder="Content-type" ng-model="h.key" ng-change="check(seq.headers, 'key', 'value')">
+                              </div>
+                            </div>
+                            <div class="eight wide column">
+                              <div class="ui small input">
+                                <input type="text" placeholder="application/json" ng-model="h.value" ng-change="check(seq.headers, 'key', 'value')">
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -129,7 +192,7 @@
         <div class="row">
           <div class="sixteen center aligned wide column">
             <div ng-click="start()" ng-class="{loading: loading}" class="ui large blue submit button">Start</div>
-            <div ng-click="stop()" ng-class="{disabled: !loading}" class="ui large red submit button">Stop</div>
+            <div ng-click="stop()" ng-class="{disabled: !loading || !polling}" class="ui large red submit button">Stop</div>
           </div>
         </div>
       </div>
@@ -139,10 +202,10 @@
         <pre ng-bind="results || 'No results yet'"></pre></code>
     </div>
     <div class="ui right aligned basic segment">
-      <div class="ui blue label"><a href="http://github.com/jpillora">jpillora</a> MIT &copy; 2013</div>
+      <div class="ui blue label"><a href="http://github.com/jpillora">jpillora</a> &copy; 2014 MIT</div>
     </div>
     <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.js"></script>
     <script src="/js/app.js"></script>
   </body>
 </html>

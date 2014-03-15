@@ -1,4 +1,6 @@
 
+/* line 40 : /Users/jpillora/Code/Node/node-load-tester/webui/src/styles/app.styl */
+
 /* line 1 : /Users/jpillora/.grunt-sources/web/node_modules/grunt-contrib-stylus/node_modules/stylus/lib/functions/index.styl */
 
 /* line 1 : /Users/jpillora/Code/Node/node-load-tester/webui/src/styles/app.styl */
@@ -19,6 +21,17 @@ html {
 }
 
 /* line 11 : /Users/jpillora/Code/Node/node-load-tester/webui/src/styles/app.styl */
+.ui.tiny.button {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+/* line 15 : /Users/jpillora/Code/Node/node-load-tester/webui/src/styles/app.styl */
 .faded {
   opacity: 0.5;
+}
+
+/* line 18 : /Users/jpillora/Code/Node/node-load-tester/webui/src/styles/app.styl */
+.faded:hover {
+  opacity: 0.85;
 }
