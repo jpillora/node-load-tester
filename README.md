@@ -143,6 +143,7 @@ Create a load test `Job`
 * `headers` (Object) - Header/Value pairs to apply to this `Request` (overrides `Job` `headers`)
 * `form` (Object) - Object to application/form encode
 * `forms` (Array[Object]) - Round-robin through objects to application/form encode
+* `json` (Object) - Object to be sent through as JSON
 * `expect` (Object) - Expectation definition object
     * `code` (Number) - Expect a particular HTTP status code **(default:200)**
     * `contains` (String) - Expect the HTTP body to contain
